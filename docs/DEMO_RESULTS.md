@@ -52,8 +52,8 @@ ignored because they are runtime artifacts. Their SHA-256 hashes in the measured
 
 This run demonstrates unattended control flow, persistent state, real process termination,
 lease-based recovery, checkpoint reuse, and idempotent persistence. Fixture facts were not fetched
-live, and no model API was called. Live web/model accuracy, PostgreSQL behavior, and provider cost
-remain unverified.
+live, and no model API was called in this specific run. See [the separate live demonstration](LIVE_DEMO_RESULTS.md)
+for measured official-web/local-model execution. Neither demonstration is an accuracy benchmark.
 
 ## Failure found while building the demo
 

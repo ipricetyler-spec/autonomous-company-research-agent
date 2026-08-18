@@ -46,7 +46,9 @@ current form.
 
 ## Known limitations
 
-Live provider behavior, public-web accuracy, robots/terms requirements for each imported site, and
-PostgreSQL execution were not verified on the build workstation. The deterministic replay contains
-small authored facts and URLs, not bulk scraped or proprietary content.
+The local Ollama run verifies live execution, citation allowlisting, retries, and field isolation;
+it does not benchmark factual accuracy or represent every OpenAI-compatible provider. Robots and
+site terms remain operator responsibilities for each imported domain. Private-network DNS/IP
+filtering is still required before exposing live imports to untrusted users. The deterministic
+replay contains small authored facts and URLs, not bulk scraped or proprietary content.
 

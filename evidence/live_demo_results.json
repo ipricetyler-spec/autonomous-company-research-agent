@@ -1,0 +1,46 @@
+{
+  "accuracy_review": "not_benchmarked; model output requires human review",
+  "companies": 3,
+  "company_status_counts": {
+    "Apple Inc.": {
+      "found": 9,
+      "not_found": 1,
+      "source_unreachable": 0,
+      "validation_failed": 5
+    },
+    "Microsoft Corporation": {
+      "found": 9,
+      "not_found": 0,
+      "source_unreachable": 1,
+      "validation_failed": 5
+    },
+    "NVIDIA Corporation": {
+      "found": 9,
+      "not_found": 0,
+      "source_unreachable": 1,
+      "validation_failed": 5
+    }
+  },
+  "elapsed_seconds": 84.16011,
+  "external_api_credentials_used": false,
+  "failed_companies": 0,
+  "field_status_counts": {
+    "found": 27,
+    "not_found": 1,
+    "source_unreachable": 2,
+    "validation_failed": 15
+  },
+  "full_event_log_sha256": "A008747978E3B99D37C11290A9554B1EBD4E7C7B96FD90A3AA8ED6AF980BB6A0",
+  "job_claim_attempts": 3,
+  "mode": "live_official_web_local_model",
+  "model": "gemma3:4b",
+  "ollama_version": "0.32.14",
+  "processed_companies": 3,
+  "results_export_sha256": "4452508E623F1028BE05C95D7EE934786F570158B3D49BD05B07463DF9E855E4",
+  "retries": 2,
+  "run_date": "2026-08-18",
+  "run_id": "run-da9fca8411cc4b22b3306a64cbbc413f",
+  "structured_output": "json_schema",
+  "unique_field_results": 45,
+  "validation_failures": 15
+}

@@ -55,9 +55,15 @@ the queue. Final state: 25 complete, 0 failed, 26 claims, and exactly 375 unique
 ## Batch-run metrics
 
 Deterministic replay on 2026-08-18: 25 companies, 300 found statuses, 75 not-found statuses, 0
-validation failures, 0 retries, 1 recovered job, and 3.563639 seconds end to end. Twenty-eight
-automated tests and Ruff passed in the final local gate. Live API and PostgreSQL runs were not
-performed on this workstation.
+validation failures, 0 retries, 1 recovered job, and 3.563639 seconds end to end. A separate live
+run used official Microsoft, Apple, and NVIDIA pages with local Ollama `gemma3:4b`: all 3 companies
+completed with 45 unique field rows, 2 recovered extraction retries, and no external API key.
+Twenty-seven fields passed as `found`; 18 were honestly retained as not found, unreachable, or
+validation failed. This demonstrates the live path and its safety boundaries, not fact accuracy.
+
+The current local gate is 38 passing tests, one PostgreSQL integration test skipped without an
+explicit disposable service, and Ruff passing. GitHub Actions provisions that PostgreSQL service
+and runs two concurrent workers against it.
 
 ## What I built and learned
 
@@ -75,8 +81,10 @@ evidence; unit coverage alone did not catch the settings integration bug.
 > retains a citation. The first 25-company demo attempt exposed a settings-default bug in the child
 > worker before processing began; I fixed it and added regression tests. The rerun was deliberately
 > killed after three companies, recovered the interrupted leased job, and finished 25 companies
-> with 375 unique field rows and no duplicates. That measured run was deterministic fixture replay;
-> live provider accuracy is not something I claim to have verified yet.
+> with 375 unique field rows and no duplicates. I also executed the live path against three
+> official sites using a local OpenAI-compatible Ollama model: all three jobs completed and the
+> validator retained 18 uncertain or invalid fields as explicit non-success statuses. I treat that
+> as execution and failure-boundary evidence, not an accuracy benchmark.
 
 ## Screening answer: run dies midway
 
@@ -92,4 +100,6 @@ evidence; unit coverage alone did not catch the settings integration bug.
 > exact expected field set with Pydantic. A `found` value cannot be committed without a source URL,
 > and live model output cannot cite a URL the tool did not supply. Missing, unreachable, and invalid
 > results have explicit statuses rather than being silently treated as empty successes. The fixture
-> demo validates those mechanics; current live-web accuracy still requires a credentialed run.
+> deterministic demo validates those mechanics. A separate official-web/local-model run exercised
+> the live path and recovered both malformed JSON and an unsupplied citation. Its output still
+> requires human review; credentialed-provider accuracy has not been benchmarked.

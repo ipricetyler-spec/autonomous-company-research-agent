@@ -5,12 +5,13 @@ human approval between research steps. It performs grouped source collection, va
 structured field, checkpoints progress, retries transient failures, and automatically reclaims
 work after a crashed worker's lease expires.
 
-The repository includes a deterministic 25-company replay demonstration that requires no API
-key. Live mode uses a provider-neutral OpenAI-compatible Chat Completions endpoint and only
-fetches a small allowlist of paths on an imported company's official domain.
+The repository includes a deterministic 25-company crash/restart demonstration that requires no
+API key and a measured three-company live run against official websites using a local Ollama
+model. Live mode remains provider-neutral through an OpenAI-compatible Chat Completions endpoint.
 
-> Evidence boundary: the included measured demo exercises deterministic fixture replay, not live
-> web/model accuracy. Live provider execution remains unverified until credentials are supplied.
+> Evidence boundary: live execution is verified, but the three-company local-model run is a safety
+> and orchestration demonstration, not an accuracy benchmark. Model-derived facts still require
+> human review before consequential use.
 
 ## Architecture
 
@@ -73,8 +74,8 @@ research-agent --database-url postgresql+psycopg://agent:agent_local_only@localh
 ```
 
 See [Architecture](docs/ARCHITECTURE.md), [failure recovery](docs/FAILURE_RECOVERY.md),
-[security](docs/SECURITY.md), [measured demo results](docs/DEMO_RESULTS.md), and
-[portfolio notes](docs/PORTFOLIO_NOTES.md).
+[security](docs/SECURITY.md), [crash/restart results](docs/DEMO_RESULTS.md),
+[live demo results](docs/LIVE_DEMO_RESULTS.md), and [portfolio notes](docs/PORTFOLIO_NOTES.md).
 
 ## Live mode
 
@@ -83,6 +84,20 @@ the process environment. Import a CSV containing `name,website`; then run with `
 Secrets are read from environment variables and never included in prompts or logs. External page
 text is explicitly delimited as untrusted evidence and cannot choose tools or execution goals.
 
+For a credential-free local run with Ollama's OpenAI-compatible endpoint:
+
+```bash
+ollama pull gemma3:4b
+# PowerShell equivalents can use $env:NAME='value'
+export LLM_BASE_URL=http://127.0.0.1:11434/v1
+export LLM_API_KEY=ollama-local
+export LLM_MODEL=gemma3:4b
+export LLM_STRUCTURED_OUTPUT=json_schema
+research-agent --database-url sqlite:///data/live.db db init
+research-agent --database-url sqlite:///data/live.db companies import examples/companies.csv
+research-agent --database-url sqlite:///data/live.db run --mode live
+```
+
 ## Tests and checks
 
 ```bash
@@ -90,4 +105,5 @@ pytest
 ruff check .
 ```
 
-CI runs both commands on Python 3.12 and performs a deterministic five-company smoke run.
+CI runs both commands on Python 3.12, exercises two concurrent workers against a PostgreSQL 18
+service, and performs a deterministic five-company smoke run.

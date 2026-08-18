@@ -54,6 +54,8 @@ def _build_worker(database: Database, settings: Settings) -> AgentWorker:
             api_key=settings.llm_api_key,
             model=settings.llm_model,
             timeout=settings.request_timeout_seconds,
+            structured_output=settings.llm_structured_output,
+            max_tokens=settings.llm_max_tokens,
         )
     return AgentWorker(
         database,

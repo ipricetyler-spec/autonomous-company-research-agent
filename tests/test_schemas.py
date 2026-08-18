@@ -58,3 +58,30 @@ def test_invalid_url_is_rejected() -> None:
 def test_invalid_status_is_rejected() -> None:
     with pytest.raises(ValidationError):
         FieldResult(field_name="ceo", status="probably")
+
+
+def test_found_status_rejects_unavailable_placeholder() -> None:
+    with pytest.raises(ValidationError, match="placeholder"):
+        FieldResult(
+            field_name="employee_count_estimate",
+            status=FieldStatus.FOUND,
+            value="Not found",
+            source_url="https://example.com/investors",
+        )
+
+
+def test_field_specific_semantics_are_validated() -> None:
+    with pytest.raises(ValidationError, match="ownership_status"):
+        FieldResult(
+            field_name="ownership_status",
+            status=FieldStatus.FOUND,
+            value="Example Corp (EXM)",
+            source_url="https://example.com/investors",
+        )
+    with pytest.raises(ValidationError, match="products_services"):
+        FieldResult(
+            field_name="products_services",
+            status=FieldStatus.FOUND,
+            value="software, services",
+            source_url="https://example.com/products",
+        )

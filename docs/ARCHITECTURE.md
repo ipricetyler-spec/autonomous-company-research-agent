@@ -8,9 +8,10 @@ The project is one unattended worker architecture with two interchangeable tool/
 - `live`: HTTP collection from a user-imported official company domain plus schema-constrained
   extraction through an OpenAI-compatible Chat Completions endpoint.
 
-The fixture path proves orchestration and reliability behavior. It does not prove current web
-accuracy or a particular model provider's behavior. The live path is implemented but remains
-unverified without credentials.
+The fixture path proves deterministic orchestration and recovery. The live path has also been run
+against three official company sites through Ollama's local OpenAI-compatible endpoint. That run
+proves the network/model/validation path executes end to end; it does not establish field accuracy
+or equivalence across model providers.
 
 ## Execution loop
 
@@ -52,9 +53,11 @@ Tables are `companies`, `jobs`, `field_results`, and `runs`.
 - A claim assigns `worker_id`, `run_id`, increments attempts, and sets `lease_until`.
 - Checkpoint and field upserts commit together at each group boundary.
 
-SQLite is the zero-dependency replay backend. PostgreSQL is the intended multi-worker backend;
-the container configuration is provided, but this workstation had no Docker engine, so a live
-PostgreSQL integration run was not claimed as verified.
+SQLite is the zero-dependency replay backend. PostgreSQL is the multi-worker backend. The CI
+workflow provisions PostgreSQL 18 and runs two concurrent workers against 12 queued companies,
+asserting balanced worker participation, 12 atomic claims, and 180 unique final field rows. The
+test is skipped locally unless `POSTGRES_TEST_DATABASE_URL` explicitly names the disposable
+`research_agent_test` database.
 
 ## Grouped source strategy
 
@@ -79,8 +82,14 @@ reuse evidence.
 - nonempty values and source URLs for every `found` result;
 - no value or source URL on unavailable results.
 
+Field-specific validation also enforces typed years and employee counts, a fixed ownership-status
+vocabulary, uppercase ticker syntax, nonempty product lists, absolute URL-valued fields, and
+rejection of placeholder strings such as `unknown` in `found` results.
+
 The live extractor additionally rejects any model citation that was not supplied by the research
-tool. Invalid model output never reaches `field_results`.
+tool. A semantically invalid field is isolated as `validation_failed` while valid sibling fields
+remain usable. Group-shape errors and unsupplied citations retry the group because their boundary
+cannot be trusted. Invalid model output never reaches `field_results` as a successful fact.
 
 ## Retry and failure boundaries
 
