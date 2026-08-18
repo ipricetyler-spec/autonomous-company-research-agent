@@ -99,6 +99,29 @@ def test_malformed_group_is_isolated_and_checkpointed(database: Database) -> Non
     assert status["retries"] == 1
 
 
+class MalformedIdentityExtractor(Extractor):
+    def __init__(self) -> None:
+        self.delegate = FixtureExtractor()
+
+    def extract(
+        self, company: Company, group: str, sources: list[SourceDocument]
+    ) -> GroupResult:
+        if group == "identity":
+            raise ExtractionError("simulated malformed multi-field model JSON")
+        return self.delegate.extract(company, group, sources)
+
+
+def test_validation_counter_counts_every_isolated_field(database: Database) -> None:
+    database.enqueue(load_fixture_inputs(limit=1))
+    result = worker(database, extractor=MalformedIdentityExtractor()).run()
+    status = database.status()
+    assert result.processed == 1
+    assert result.failed == 0
+    assert status["fields"]["validation_failed"] == 5
+    assert status["validation_failures"] == 5
+    assert status["retries"] == 1
+
+
 class FatalFirstCompanyExtractor(Extractor):
     def __init__(self, first_company: str) -> None:
         self.first_company = first_company

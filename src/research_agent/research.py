@@ -70,6 +70,12 @@ def html_to_text(body: str) -> str:
     return _SPACE.sub(" ", html.unescape(body)).strip()
 
 
+def is_allowed_host(imported_host: str, final_host: str) -> bool:
+    allowed_domain = imported_host.lower().removeprefix("www.")
+    candidate = final_host.lower()
+    return candidate == allowed_domain or candidate.endswith("." + allowed_domain)
+
+
 class OfficialWebsiteResearchTool(ResearchTool):
     """Fetches only user-supplied official domains and a small fixed path allowlist."""
 
@@ -91,6 +97,8 @@ class OfficialWebsiteResearchTool(ResearchTool):
         origin = urlparse(company.website)
         allowed_host = (origin.hostname or "").lower()
         documents: list[SourceDocument] = []
+        seen_urls: set[str] = set()
+        collected_chars = 0
         headers = {"User-Agent": "PortfolioResearchAgent/0.1 (+local educational demo)"}
         with httpx.Client(timeout=self.timeout, follow_redirects=True, headers=headers) as client:
             for path in self.GROUP_PATHS[group]:
@@ -98,7 +106,7 @@ class OfficialWebsiteResearchTool(ResearchTool):
                 try:
                     response = client.get(url)
                     response.raise_for_status()
-                except (httpx.TimeoutException, httpx.NetworkError) as error:
+                except httpx.TransportError as error:
                     raise TransientResearchError(str(error)) from error
                 except httpx.HTTPStatusError as error:
                     if (
@@ -108,20 +116,28 @@ class OfficialWebsiteResearchTool(ResearchTool):
                         raise TransientResearchError(str(error)) from error
                     continue
                 final_host = (response.url.host or "").lower()
-                if final_host != allowed_host and not final_host.endswith("." + allowed_host):
+                if not is_allowed_host(allowed_host, final_host):
                     continue
                 content_type = response.headers.get("content-type", "")
                 if "text/html" not in content_type:
                     continue
-                text = html_to_text(response.text)[: self.max_chars]
+                final_url = str(response.url)
+                if final_url in seen_urls:
+                    continue
+                remaining_chars = self.max_chars - collected_chars
+                if remaining_chars <= 0:
+                    break
+                text = html_to_text(response.text)[:remaining_chars]
                 if text:
                     documents.append(
                         SourceDocument(
-                            url=str(response.url),
-                            title=f"{company.name} official website: {path}",
+                            url=final_url,
+                            title=f"{company.name} official website: {response.url.path or '/'}",
                             content=text,
                         )
                     )
+                    seen_urls.add(final_url)
+                    collected_chars += len(text)
         if not documents:
             raise ResearchError(f"no usable official pages for {company.name}/{group}")
         return documents

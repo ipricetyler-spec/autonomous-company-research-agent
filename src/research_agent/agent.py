@@ -190,15 +190,36 @@ class AgentWorker:
             return self._unavailable_group(group, FieldStatus.SOURCE_UNREACHABLE, str(error))
 
         try:
-            return retry_call(
+            result = retry_call(
                 lambda: self.extractor.extract(company, group, sources),
                 attempts=self.settings.max_retries,
                 base_seconds=self.settings.backoff_base_seconds,
                 retryable=(TransientExtractionError, ExtractionError),
                 on_retry=on_retry,
             )
+            rejected_fields = sum(
+                item.status is FieldStatus.VALIDATION_FAILED for item in result.results
+            )
+            if rejected_fields:
+                self.database.increment_run(run_id, "validation_failures", rejected_fields)
+                self.logger.emit(
+                    "group_partially_validated",
+                    run_id=run_id,
+                    worker_id=self.worker_id,
+                    company_id=company.id,
+                    company=company.name,
+                    job_id=job.id,
+                    group=group,
+                    status="partial",
+                    validation_failures=rejected_fields,
+                )
+            return result
         except (RetryExhaustedError, ExtractionError) as error:
-            self.database.increment_run(run_id, "validation_failures")
+            self.database.increment_run(
+                run_id,
+                "validation_failures",
+                len(FIELD_GROUPS[group]),
+            )
             return self._unavailable_group(group, FieldStatus.VALIDATION_FAILED, str(error))
 
     @staticmethod

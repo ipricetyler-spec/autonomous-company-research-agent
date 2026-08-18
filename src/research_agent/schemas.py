@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+import re
 from datetime import UTC, datetime
 from enum import StrEnum
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict, Field, HttpUrl, model_validator
+from pydantic import BaseModel, ConfigDict, Field, HttpUrl, TypeAdapter, model_validator
 
 
 class FieldStatus(StrEnum):
@@ -29,6 +30,15 @@ FIELD_GROUPS: dict[str, tuple[str, ...]] = {
     "public_presence": ("careers_url", "linkedin_url", "recent_development"),
 }
 ALLOWED_FIELDS = frozenset(field for fields in FIELD_GROUPS.values() for field in fields)
+URL_VALUE_FIELDS = frozenset({"official_website", "careers_url", "linkedin_url"})
+OWNERSHIP_VALUES = frozenset(
+    {"public", "private", "subsidiary", "nonprofit", "government", "cooperative"}
+)
+UNAVAILABLE_PLACEHOLDERS = frozenset(
+    {"not found", "unknown", "n/a", "na", "none", "null", "unavailable"}
+)
+_HTTP_URL_ADAPTER = TypeAdapter(HttpUrl)
+_TICKER = re.compile(r"^[A-Z][A-Z0-9.-]{0,9}$")
 
 
 class SourceDocument(BaseModel):
@@ -61,6 +71,37 @@ class FieldResult(BaseModel):
                 raise ValueError("found results require a non-empty value")
             if self.source_url is None:
                 raise ValueError("found results require source_url")
+            if (
+                isinstance(self.value, str)
+                and self.value.strip().casefold() in UNAVAILABLE_PLACEHOLDERS
+            ):
+                raise ValueError("unavailable placeholder cannot use found status")
+            if self.field_name in URL_VALUE_FIELDS:
+                _HTTP_URL_ADAPTER.validate_python(self.value)
+            elif self.field_name == "founded_year":
+                current_year = datetime.now(UTC).year
+                if isinstance(self.value, bool) or not isinstance(self.value, int):
+                    raise ValueError("founded_year must be an integer")
+                if not 1600 <= self.value <= current_year:
+                    raise ValueError("founded_year is outside the supported range")
+            elif self.field_name == "employee_count_estimate":
+                if (
+                    isinstance(self.value, bool)
+                    or not isinstance(self.value, int)
+                    or self.value < 1
+                ):
+                    raise ValueError("employee_count_estimate must be a positive integer")
+            elif self.field_name == "ownership_status":
+                if not isinstance(self.value, str) or self.value.casefold() not in OWNERSHIP_VALUES:
+                    raise ValueError(f"ownership_status must be one of {sorted(OWNERSHIP_VALUES)}")
+            elif self.field_name == "stock_ticker":
+                if not isinstance(self.value, str) or not _TICKER.fullmatch(self.value):
+                    raise ValueError("stock_ticker must be an uppercase market symbol")
+            elif self.field_name == "products_services":
+                if not isinstance(self.value, list) or not self.value or not all(
+                    isinstance(item, str) and item.strip() for item in self.value
+                ):
+                    raise ValueError("products_services must be a non-empty string list")
         elif self.value is not None or self.source_url is not None:
             raise ValueError("unavailable results cannot contain value or source_url")
         return self

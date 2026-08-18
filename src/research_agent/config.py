@@ -31,6 +31,8 @@ class Settings:
     llm_base_url: str | None = None
     llm_api_key: str | None = None
     llm_model: str | None = None
+    llm_structured_output: str = "json_schema"
+    llm_max_tokens: int = 2000
     group_delay_seconds: float = 0.0
 
     @classmethod
@@ -52,12 +54,18 @@ class Settings:
             "llm_base_url": os.getenv("LLM_BASE_URL"),
             "llm_api_key": os.getenv("LLM_API_KEY"),
             "llm_model": os.getenv("LLM_MODEL"),
+            "llm_structured_output": os.getenv(
+                "LLM_STRUCTURED_OUTPUT", defaults.llm_structured_output
+            ),
+            "llm_max_tokens": _positive_int("LLM_MAX_TOKENS", defaults.llm_max_tokens),
             "group_delay_seconds": float(os.getenv("GROUP_DELAY_SECONDS", "0")),
         }
         values.update({key: value for key, value in overrides.items() if value is not None})
         settings = cls(**values)
         if settings.mode not in {"fixture", "live"}:
             raise ValueError("RESEARCH_AGENT_MODE must be 'fixture' or 'live'")
+        if settings.llm_structured_output not in {"json_schema", "json_object"}:
+            raise ValueError("LLM_STRUCTURED_OUTPUT must be 'json_schema' or 'json_object'")
         if settings.mode == "live" and not all(
             (settings.llm_base_url, settings.llm_api_key, settings.llm_model)
         ):
