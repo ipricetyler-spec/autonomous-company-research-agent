@@ -1,0 +1,42 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "autonomous-company-research-agent"
+version = "0.1.0"
+description = "Crash-safe unattended public-company research agent"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Tyler" }]
+dependencies = [
+  "httpx==0.28.1",
+  "pydantic==2.13.4",
+  "SQLAlchemy==2.0.51",
+]
+
+[project.optional-dependencies]
+postgres = ["psycopg[binary]>=3.2,<4"]
+dev = [
+  "pytest==9.1.1",
+  "ruff>=0.12,<1",
+]
+
+[project.scripts]
+research-agent = "research_agent.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/research_agent"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
