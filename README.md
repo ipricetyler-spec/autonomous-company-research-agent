@@ -69,7 +69,7 @@ JSON/CSV exports, and measured `demo_results.json`.
 ```bash
 docker compose up -d postgres
 python -m pip install -e ".[postgres,dev]"
-research-agent --database-url postgresql+psycopg://agent:agent@localhost:5432/research_agent db init
+research-agent --database-url postgresql+psycopg://agent:agent_local_only@localhost:5432/research_agent db init
 ```
 
 See [Architecture](docs/ARCHITECTURE.md), [failure recovery](docs/FAILURE_RECOVERY.md),
@@ -78,8 +78,8 @@ See [Architecture](docs/ARCHITECTURE.md), [failure recovery](docs/FAILURE_RECOVE
 
 ## Live mode
 
-Copy `.env.example` to `.env` and provide `LLM_BASE_URL`, `LLM_API_KEY`, and `LLM_MODEL` in the
-process environment. Import a CSV containing `name,website`; then run with `--mode live`.
+Use `.env.example` as a reference and export `LLM_BASE_URL`, `LLM_API_KEY`, and `LLM_MODEL` into
+the process environment. Import a CSV containing `name,website`; then run with `--mode live`.
 Secrets are read from environment variables and never included in prompts or logs. External page
 text is explicitly delimited as untrusted evidence and cannot choose tools or execution goals.
 
@@ -91,4 +91,3 @@ ruff check .
 ```
 
 CI runs both commands on Python 3.12 and performs a deterministic five-company smoke run.
-
