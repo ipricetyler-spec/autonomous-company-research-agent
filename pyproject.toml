@@ -20,7 +20,7 @@ dependencies = [
 postgres = ["psycopg[binary]>=3.2,<4"]
 dev = [
   "pytest==9.1.1",
-  "ruff>=0.12,<1",
+  "ruff==0.16.3",
 ]
 
 [project.scripts]
@@ -39,4 +39,3 @@ line-length = 100
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
-

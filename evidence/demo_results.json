@@ -1,0 +1,21 @@
+{
+  "companies_queued": 25,
+  "completed_companies": 25,
+  "duplicate_final_results": false,
+  "elapsed_seconds": 3.563639,
+  "expected_unique_field_results": 375,
+  "failed_companies": 0,
+  "field_status_counts": {
+    "found": 300,
+    "not_found": 75
+  },
+  "first_worker_killed_exit_code": 1,
+  "job_claim_attempts": 26,
+  "live_api_verified": false,
+  "mode": "deterministic_fixture_replay",
+  "recovered_jobs": 1,
+  "restart_worker_exit_code": 0,
+  "retries": 0,
+  "unique_field_results": 375,
+  "validation_failures": 0
+}

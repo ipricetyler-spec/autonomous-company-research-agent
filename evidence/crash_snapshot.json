@@ -1,0 +1,37 @@
+{
+  "event": "forced_process_termination",
+  "exit_code_after_kill": 1,
+  "running_before_kill": [
+    {
+      "attempts": 1,
+      "checkpoint": {
+        "completed_groups": ["identity"]
+      },
+      "company": "Alphabet Inc.",
+      "job_id": 4,
+      "lease_until": "2026-08-18T17:03:12.455913",
+      "run_id": "run-194b6eda6fea44c9ac2691299db5afed",
+      "worker_id": "worker-cb4fe8b5aa"
+    }
+  ],
+  "status_after_kill": {
+    "companies": 25,
+    "fields": {"found": 41, "not_found": 9},
+    "job_claim_attempts": 4,
+    "jobs": {"complete": 3, "failed": 0, "pending": 21, "running": 1},
+    "recovered_jobs": 0,
+    "retries": 0,
+    "unique_field_results": 50,
+    "validation_failures": 0
+  },
+  "status_before_kill": {
+    "companies": 25,
+    "fields": {"found": 41, "not_found": 9},
+    "job_claim_attempts": 4,
+    "jobs": {"complete": 3, "failed": 0, "pending": 21, "running": 1},
+    "recovered_jobs": 0,
+    "retries": 0,
+    "unique_field_results": 50,
+    "validation_failures": 0
+  }
+}

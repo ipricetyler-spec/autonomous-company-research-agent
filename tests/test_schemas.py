@@ -44,3 +44,17 @@ def test_valid_found_field() -> None:
     )
     assert str(result.source_url) == "https://example.com/about"
 
+
+def test_invalid_url_is_rejected() -> None:
+    with pytest.raises(ValidationError):
+        FieldResult(
+            field_name="legal_name",
+            status=FieldStatus.FOUND,
+            value="Example Inc.",
+            source_url="not-a-url",
+        )
+
+
+def test_invalid_status_is_rejected() -> None:
+    with pytest.raises(ValidationError):
+        FieldResult(field_name="ceo", status="probably")
