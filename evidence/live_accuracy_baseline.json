@@ -1,0 +1,352 @@
+{
+  "errors": [
+    {
+      "company": "Apple Inc.",
+      "expected": "Technology company offering consumer devices, software, and services.",
+      "field_name": "description",
+      "outcome": "incorrect",
+      "predicted_status": "found",
+      "predicted_value": "Apple Inc. is a technology company that designs, develops, and sells consumer electronics, computer software, and online services. It is known for products such as the iPhone, iPad, Mac, Apple Watch, and AirPods. [https://www.apple.com/]"
+    },
+    {
+      "company": "Apple Inc.",
+      "expected": 1976,
+      "field_name": "founded_year",
+      "outcome": "abstained",
+      "predicted_status": "validation_failed",
+      "predicted_value": null
+    },
+    {
+      "company": "Apple Inc.",
+      "expected": "Global",
+      "field_name": "geographic_markets",
+      "outcome": "abstained",
+      "predicted_status": "validation_failed",
+      "predicted_value": null
+    },
+    {
+      "company": "Apple Inc.",
+      "expected": "Cupertino, California, United States",
+      "field_name": "headquarters",
+      "outcome": "incorrect",
+      "predicted_status": "found",
+      "predicted_value": "Cupertino, California"
+    },
+    {
+      "company": "Apple Inc.",
+      "expected": "Consumer technology",
+      "field_name": "industry",
+      "outcome": "incorrect",
+      "predicted_status": "found",
+      "predicted_value": "Technology"
+    },
+    {
+      "company": "Apple Inc.",
+      "expected": "https://www.linkedin.com/company/apple/",
+      "field_name": "linkedin_url",
+      "outcome": "abstained",
+      "predicted_status": "not_found",
+      "predicted_value": null
+    },
+    {
+      "company": "Apple Inc.",
+      "expected": "public",
+      "field_name": "ownership_status",
+      "outcome": "abstained",
+      "predicted_status": "validation_failed",
+      "predicted_value": null
+    },
+    {
+      "company": "Apple Inc.",
+      "expected": [
+        "devices",
+        "software",
+        "digital services"
+      ],
+      "field_name": "products_services",
+      "outcome": "incorrect",
+      "predicted_status": "found",
+      "predicted_value": [
+        "iPhone",
+        "iPad",
+        "Mac",
+        "Apple Watch",
+        "AirPods",
+        "TV",
+        "Apple Music",
+        "Apple TV",
+        "Apple One",
+        "Apple Card"
+      ]
+    },
+    {
+      "company": "Apple Inc.",
+      "expected": "AAPL",
+      "field_name": "stock_ticker",
+      "outcome": "abstained",
+      "predicted_status": "validation_failed",
+      "predicted_value": null
+    },
+    {
+      "company": "Microsoft Corporation",
+      "expected": "Technology company offering software, cloud, devices, and related services.",
+      "field_name": "description",
+      "outcome": "abstained",
+      "predicted_status": "validation_failed",
+      "predicted_value": null
+    },
+    {
+      "company": "Microsoft Corporation",
+      "expected": 1975,
+      "field_name": "founded_year",
+      "outcome": "abstained",
+      "predicted_status": "validation_failed",
+      "predicted_value": null
+    },
+    {
+      "company": "Microsoft Corporation",
+      "expected": "Global",
+      "field_name": "geographic_markets",
+      "outcome": "abstained",
+      "predicted_status": "validation_failed",
+      "predicted_value": null
+    },
+    {
+      "company": "Microsoft Corporation",
+      "expected": "Redmond, Washington, United States",
+      "field_name": "headquarters",
+      "outcome": "incorrect",
+      "predicted_status": "found",
+      "predicted_value": "Redmond, Washington"
+    },
+    {
+      "company": "Microsoft Corporation",
+      "expected": [
+        "software",
+        "cloud services",
+        "devices"
+      ],
+      "field_name": "products_services",
+      "outcome": "abstained",
+      "predicted_status": "validation_failed",
+      "predicted_value": null
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "expected": "https://www.nvidia.com/en-us/about-nvidia/careers/",
+      "field_name": "careers_url",
+      "outcome": "abstained",
+      "predicted_status": "validation_failed",
+      "predicted_value": null
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "expected": "Computing company focused on accelerated computing platforms.",
+      "field_name": "description",
+      "outcome": "incorrect",
+      "predicted_status": "found",
+      "predicted_value": "World Leader in Artificial Intelligence Computing | NVIDIA NVIDIA Home NVIDIA Home Menu Menu icon Menu Menu icon Close Close icon Close Close icon Close Close icon Caret down icon Accordion is closed, click to open. Caret down icon Accordion is closed, click to open. Caret up icon Accordion is open, click to close. Caret right icon Click to expand Caret right icon Click to expand Caret right icon Click to expand menu. Caret left icon Click to collapse menu. Caret left icon Click to collapse menu. Caret left icon Click to collapse menu."
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "expected": 1993,
+      "field_name": "founded_year",
+      "outcome": "abstained",
+      "predicted_status": "validation_failed",
+      "predicted_value": null
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "expected": "Global",
+      "field_name": "geographic_markets",
+      "outcome": "incorrect",
+      "predicted_status": "found",
+      "predicted_value": "Argentina, Australia, Belgium, Brazil, Canada, Czech Republic, Chile, Colombia, Denmark, Deutschland, Espa\u00f1a, France, India, Italia, Mexico, Middle East, Netherlands, Norway, \u00d6sterreich, Peru, Polska, Rest of Europe, Romania, Singapore, Suomi, Sverige, T\u00fcrkiye, United Kingdom, United States, South Korea, China, Taiwan, Japan"
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "expected": "Santa Clara, California, United States",
+      "field_name": "headquarters",
+      "outcome": "incorrect",
+      "predicted_status": "found",
+      "predicted_value": "Santa Clara, California"
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "expected": "https://www.linkedin.com/company/nvidia/",
+      "field_name": "linkedin_url",
+      "outcome": "abstained",
+      "predicted_status": "validation_failed",
+      "predicted_value": null
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "expected": "https://www.nvidia.com/",
+      "field_name": "official_website",
+      "outcome": "incorrect",
+      "predicted_status": "found",
+      "predicted_value": "https://www.nvidia.com/en-us/"
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "expected": [
+        "graphics processors",
+        "computing platforms",
+        "software"
+      ],
+      "field_name": "products_services",
+      "outcome": "incorrect",
+      "predicted_status": "found",
+      "predicted_value": [
+        "Artificial Intelligence Computing",
+        "Cloud Services",
+        "Creating Data Center",
+        "Embedded Systems",
+        "Gaming",
+        "Graphics Cards and Desktops",
+        "Laptops",
+        "Networking",
+        "Professional Workstations",
+        "Software Tools",
+        "NGC Catalog"
+      ]
+    }
+  ],
+  "per_field": {
+    "careers_url": {
+      "abstained": 1,
+      "correct": 2,
+      "incorrect": 0,
+      "labels": 3,
+      "missing": 0
+    },
+    "description": {
+      "abstained": 1,
+      "correct": 0,
+      "incorrect": 2,
+      "labels": 3,
+      "missing": 0
+    },
+    "founded_year": {
+      "abstained": 3,
+      "correct": 0,
+      "incorrect": 0,
+      "labels": 3,
+      "missing": 0
+    },
+    "geographic_markets": {
+      "abstained": 2,
+      "correct": 0,
+      "incorrect": 1,
+      "labels": 3,
+      "missing": 0
+    },
+    "headquarters": {
+      "abstained": 0,
+      "correct": 0,
+      "incorrect": 3,
+      "labels": 3,
+      "missing": 0
+    },
+    "industry": {
+      "abstained": 0,
+      "correct": 2,
+      "incorrect": 1,
+      "labels": 3,
+      "missing": 0
+    },
+    "legal_name": {
+      "abstained": 0,
+      "correct": 3,
+      "incorrect": 0,
+      "labels": 3,
+      "missing": 0
+    },
+    "linkedin_url": {
+      "abstained": 2,
+      "correct": 1,
+      "incorrect": 0,
+      "labels": 3,
+      "missing": 0
+    },
+    "official_website": {
+      "abstained": 0,
+      "correct": 2,
+      "incorrect": 1,
+      "labels": 3,
+      "missing": 0
+    },
+    "ownership_status": {
+      "abstained": 1,
+      "correct": 2,
+      "incorrect": 0,
+      "labels": 3,
+      "missing": 0
+    },
+    "products_services": {
+      "abstained": 1,
+      "correct": 0,
+      "incorrect": 2,
+      "labels": 3,
+      "missing": 0
+    },
+    "stock_ticker": {
+      "abstained": 1,
+      "correct": 2,
+      "incorrect": 0,
+      "labels": 3,
+      "missing": 0
+    }
+  },
+  "schema_version": 1,
+  "summary": {
+    "abstained": 12,
+    "accuracy_overall": 0.3888888888888889,
+    "answered": 24,
+    "correct": 14,
+    "coverage": 0.6666666666666666,
+    "incorrect": 10,
+    "labels": 36,
+    "missing": 0,
+    "precision_when_answered": 0.5833333333333334,
+    "unsupported_prediction_count": 9
+  },
+  "unsupported_predictions": [
+    {
+      "company": "Apple Inc.",
+      "field_name": "ceo"
+    },
+    {
+      "company": "Apple Inc.",
+      "field_name": "employee_count_estimate"
+    },
+    {
+      "company": "Apple Inc.",
+      "field_name": "recent_development"
+    },
+    {
+      "company": "Microsoft Corporation",
+      "field_name": "ceo"
+    },
+    {
+      "company": "Microsoft Corporation",
+      "field_name": "employee_count_estimate"
+    },
+    {
+      "company": "Microsoft Corporation",
+      "field_name": "recent_development"
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "field_name": "ceo"
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "field_name": "employee_count_estimate"
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "field_name": "recent_development"
+    }
+  ]
+}

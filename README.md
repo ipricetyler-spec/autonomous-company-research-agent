@@ -9,9 +9,9 @@ The repository includes a deterministic 25-company crash/restart demonstration t
 API key and a measured three-company live run against official websites using a local Ollama
 model. Live mode remains provider-neutral through an OpenAI-compatible Chat Completions endpoint.
 
-> Evidence boundary: live execution is verified, but the three-company local-model run is a safety
-> and orchestration demonstration, not an accuracy benchmark. Model-derived facts still require
-> human review before consequential use.
+> Evidence boundary: live execution is verified and the recorded three-company run now has an
+> exact-match baseline against authored reference labels. The labels have not been independently
+> adjudicated, and model-derived facts still require human review before consequential use.
 
 ## Architecture
 
@@ -77,12 +77,35 @@ See [Architecture](docs/ARCHITECTURE.md), [failure recovery](docs/FAILURE_RECOVE
 [security](docs/SECURITY.md), [crash/restart results](docs/DEMO_RESULTS.md),
 [live demo results](docs/LIVE_DEMO_RESULTS.md), and [portfolio notes](docs/PORTFOLIO_NOTES.md).
 
+## Accuracy benchmark
+
+Score any JSON result export against the 25-company authored reference set:
+
+```bash
+research-agent benchmark data/results.json --output evidence/accuracy.json
+```
+
+For a partial run, explicitly scope the labels to companies present in that export:
+
+```bash
+research-agent benchmark data/live-results.json \
+  --scope-to-predictions \
+  --output evidence/live-accuracy.json
+```
+
+The report separates overall accuracy, answer coverage, precision when answered, abstentions,
+missing rows, and predictions for fields without labels. See
+[Accuracy benchmark](docs/ACCURACY_BENCHMARK.md) for metric definitions and evidence limits.
+
 ## Live mode
 
 Use `.env.example` as a reference and export `LLM_BASE_URL`, `LLM_API_KEY`, and `LLM_MODEL` into
 the process environment. Import a CSV containing `name,website`; then run with `--mode live`.
 Secrets are read from environment variables and never included in prompts or logs. External page
 text is explicitly delimited as untrusted evidence and cannot choose tools or execution goals.
+Before every live request, the collector rejects URL credentials, nonstandard ports, cross-domain
+redirects, and DNS answers containing loopback, private, link-local, reserved, or other non-public
+addresses. Redirects are validated before they are followed.
 
 For a credential-free local run with Ollama's OpenAI-compatible endpoint:
 

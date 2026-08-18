@@ -11,6 +11,12 @@ from pathlib import Path
 from typing import Any
 
 from research_agent.agent import AgentWorker
+from research_agent.benchmark import (
+    evaluate_predictions,
+    load_labels,
+    load_predictions,
+    scope_labels_to_prediction_companies,
+)
 from research_agent.config import Settings
 from research_agent.database import Database
 from research_agent.events import EventLogger
@@ -178,6 +184,20 @@ def command_export(args: argparse.Namespace) -> int:
     return 0
 
 
+def command_benchmark(args: argparse.Namespace) -> int:
+    labels = load_labels(Path(args.labels))
+    predictions = load_predictions(Path(args.path))
+    if args.scope_to_predictions:
+        labels = scope_labels_to_prediction_companies(labels, predictions)
+    result = evaluate_predictions(labels, predictions)
+    if args.output:
+        output = Path(args.output)
+        output.parent.mkdir(parents=True, exist_ok=True)
+        _write_json(output, result)
+    print(json.dumps(result, indent=2, sort_keys=True))
+    return 0
+
+
 def _write_json(path: Path, value: Any) -> None:
     path.write_text(json.dumps(value, indent=2, sort_keys=True), encoding="utf-8")
 
@@ -318,6 +338,21 @@ def build_parser() -> argparse.ArgumentParser:
     export = commands.add_parser("export", help="export .json or .csv results")
     export.add_argument("path")
     export.set_defaults(handler=command_export)
+
+    benchmark = commands.add_parser("benchmark", help="score an exported result set")
+    benchmark.add_argument("path", help="JSON export produced by the agent")
+    benchmark.add_argument(
+        "--labels",
+        default=str(DEFAULT_FIXTURE),
+        help="labeled JSON reference set (defaults to the 25-company authored fixture)",
+    )
+    benchmark.add_argument("--output", help="optional path for the machine-readable report")
+    benchmark.add_argument(
+        "--scope-to-predictions",
+        action="store_true",
+        help="score only companies present in the result export",
+    )
+    benchmark.set_defaults(handler=command_benchmark)
 
     demo = commands.add_parser("demo", help="deterministic demonstrations")
     demo_commands = demo.add_subparsers(dest="demo_command", required=True)

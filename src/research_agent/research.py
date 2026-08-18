@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 import html
+import ipaddress
 import json
 import re
+import socket
 from abc import ABC, abstractmethod
+from collections.abc import Callable
 from pathlib import Path
 from urllib.parse import urljoin, urlparse
 
@@ -18,6 +21,10 @@ class ResearchError(RuntimeError):
 
 
 class TransientResearchError(ResearchError):
+    pass
+
+
+class UnsafeNetworkTargetError(ResearchError):
     pass
 
 
@@ -76,6 +83,81 @@ def is_allowed_host(imported_host: str, final_host: str) -> bool:
     return candidate == allowed_domain or candidate.endswith("." + allowed_domain)
 
 
+Resolver = Callable[..., list[tuple[object, object, object, object, tuple[object, ...]]]]
+
+
+def _is_public_address(value: str) -> bool:
+    address = ipaddress.ip_address(value.split("%", 1)[0])
+    if isinstance(address, ipaddress.IPv6Address) and address.ipv4_mapped:
+        address = address.ipv4_mapped
+    return address.is_global
+
+
+def resolve_public_addresses(
+    hostname: str,
+    port: int,
+    *,
+    resolver: Resolver = socket.getaddrinfo,
+) -> frozenset[str]:
+    """Resolve a hostname and reject any non-public answer before a connection is attempted."""
+
+    try:
+        answers = resolver(hostname, port, type=socket.SOCK_STREAM)
+    except OSError as error:
+        raise TransientResearchError(f"DNS resolution failed for {hostname}") from error
+    addresses = frozenset(str(answer[4][0]).split("%", 1)[0] for answer in answers)
+    if not addresses:
+        raise TransientResearchError(f"DNS resolution returned no addresses for {hostname}")
+    blocked = sorted(address for address in addresses if not _is_public_address(address))
+    if blocked:
+        raise UnsafeNetworkTargetError(
+            f"blocked non-public network target for {hostname}: {', '.join(blocked)}"
+        )
+    return addresses
+
+
+def validate_public_url(
+    url: str,
+    imported_host: str,
+    *,
+    resolver: Resolver = socket.getaddrinfo,
+) -> frozenset[str]:
+    """Apply the live-mode URL, domain, credential, port, and DNS policy."""
+
+    parsed = urlparse(url)
+    hostname = (parsed.hostname or "").lower()
+    if parsed.scheme not in {"http", "https"} or not hostname:
+        raise UnsafeNetworkTargetError("live research permits only absolute HTTP(S) URLs")
+    if parsed.username is not None or parsed.password is not None:
+        raise UnsafeNetworkTargetError("URL credentials are not permitted")
+    if not is_allowed_host(imported_host, hostname):
+        raise UnsafeNetworkTargetError(f"redirect left the imported official domain: {hostname}")
+    try:
+        port = parsed.port or (443 if parsed.scheme == "https" else 80)
+    except ValueError as error:
+        raise UnsafeNetworkTargetError("URL contains an invalid port") from error
+    if port not in {80, 443}:
+        raise UnsafeNetworkTargetError(f"nonstandard network port is not permitted: {port}")
+    return resolve_public_addresses(hostname, port, resolver=resolver)
+
+
+def _validate_connected_peer(response: httpx.Response) -> None:
+    """Reject a non-public connected peer when HTTPX exposes the socket address."""
+
+    stream = response.extensions.get("network_stream")
+    get_extra_info = getattr(stream, "get_extra_info", None)
+    if not callable(get_extra_info):
+        return
+    peer = get_extra_info("server_addr")
+    if isinstance(peer, tuple) and peer and isinstance(peer[0], str):
+        try:
+            public = _is_public_address(peer[0])
+        except ValueError as error:
+            raise UnsafeNetworkTargetError("connected peer address is invalid") from error
+        if not public:
+            raise UnsafeNetworkTargetError(f"blocked non-public connected peer: {peer[0]}")
+
+
 class OfficialWebsiteResearchTool(ResearchTool):
     """Fetches only user-supplied official domains and a small fixed path allowlist."""
 
@@ -87,9 +169,34 @@ class OfficialWebsiteResearchTool(ResearchTool):
         "public_presence": ("/careers", "/news", "/newsroom"),
     }
 
-    def __init__(self, *, timeout: float, max_chars: int) -> None:
+    def __init__(
+        self,
+        *,
+        timeout: float,
+        max_chars: int,
+        resolver: Resolver = socket.getaddrinfo,
+        max_redirects: int = 5,
+    ) -> None:
         self.timeout = timeout
         self.max_chars = max_chars
+        self.resolver = resolver
+        self.max_redirects = max_redirects
+
+    def _get(self, client: httpx.Client, url: str, imported_host: str) -> httpx.Response:
+        current_url = url
+        for redirect_count in range(self.max_redirects + 1):
+            validate_public_url(current_url, imported_host, resolver=self.resolver)
+            response = client.get(current_url)
+            _validate_connected_peer(response)
+            if not response.is_redirect:
+                return response
+            location = response.headers.get("location")
+            if not location:
+                return response
+            if redirect_count >= self.max_redirects:
+                raise ResearchError(f"redirect limit exceeded for {url}")
+            current_url = urljoin(str(response.url), location)
+        raise AssertionError("redirect loop terminated unexpectedly")
 
     def collect(self, company: Company, group: str) -> list[SourceDocument]:
         if not company.website:
@@ -100,11 +207,11 @@ class OfficialWebsiteResearchTool(ResearchTool):
         seen_urls: set[str] = set()
         collected_chars = 0
         headers = {"User-Agent": "PortfolioResearchAgent/0.1 (+local educational demo)"}
-        with httpx.Client(timeout=self.timeout, follow_redirects=True, headers=headers) as client:
+        with httpx.Client(timeout=self.timeout, follow_redirects=False, headers=headers) as client:
             for path in self.GROUP_PATHS[group]:
                 url = urljoin(company.website, path)
                 try:
-                    response = client.get(url)
+                    response = self._get(client, url, allowed_host)
                     response.raise_for_status()
                 except httpx.TransportError as error:
                     raise TransientResearchError(str(error)) from error
