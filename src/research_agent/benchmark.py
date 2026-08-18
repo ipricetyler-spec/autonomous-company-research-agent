@@ -45,8 +45,10 @@ def normalize_value(field_name: str, value: Any) -> Any:
 
 def load_labels(path: Path) -> dict[tuple[str, str], Any]:
     raw = json.loads(path.read_text(encoding="utf-8"))
+    if isinstance(raw, dict):
+        return _load_adjudicated_labels(raw)
     if not isinstance(raw, list):
-        raise BenchmarkError("labels must be a JSON array")
+        raise BenchmarkError("labels must be a JSON array or adjudicated label object")
     labels: dict[tuple[str, str], Any] = {}
     for company in raw:
         if not isinstance(company, dict) or not isinstance(company.get("name"), str):
@@ -61,6 +63,64 @@ def load_labels(path: Path) -> dict[tuple[str, str], Any]:
             labels[key] = company[field_name]
     if not labels:
         raise BenchmarkError("labels contain no supported field values")
+    return labels
+
+
+def _load_adjudicated_labels(raw: dict[str, Any]) -> dict[tuple[str, str], Any]:
+    if raw.get("schema_version") != 2:
+        raise BenchmarkError("unsupported adjudicated label schema_version")
+    sources = raw.get("sources")
+    companies = raw.get("companies")
+    if not isinstance(sources, dict) or not sources:
+        raise BenchmarkError("adjudicated labels require a source registry")
+    if not isinstance(companies, list):
+        raise BenchmarkError("adjudicated labels require a companies array")
+    labels: dict[tuple[str, str], Any] = {}
+    for source_id, source in sources.items():
+        if (
+            not isinstance(source_id, str)
+            or not isinstance(source, dict)
+            or not isinstance(source.get("url"), str)
+            or not isinstance(source.get("source_kind"), str)
+            or not isinstance(source.get("accessed_at"), str)
+        ):
+            raise BenchmarkError("every source requires id, URL, kind, and access date")
+    for company in companies:
+        if not isinstance(company, dict) or not isinstance(company.get("name"), str):
+            raise BenchmarkError("every adjudicated company requires a name")
+        fields = company.get("fields")
+        if not isinstance(fields, dict):
+            raise BenchmarkError(f"{company['name']} requires a fields object")
+        for field_name, label in fields.items():
+            if field_name not in ALLOWED_FIELDS:
+                raise BenchmarkError(f"unsupported adjudicated field: {field_name}")
+            if not isinstance(label, dict) or label.get("review_status") != "verified":
+                raise BenchmarkError(
+                    f"{company['name']}/{field_name} is not marked verified"
+                )
+            if (
+                "value" not in label
+                or not isinstance(label.get("reviewed_at"), str)
+                or not isinstance(label.get("evidence_locator"), str)
+            ):
+                raise BenchmarkError(
+                    f"{company['name']}/{field_name} lacks value, review date, or evidence locator"
+                )
+            source_ids = label.get("source_ids")
+            if not isinstance(source_ids, list) or not source_ids:
+                raise BenchmarkError(f"{company['name']}/{field_name} lacks sources")
+            unknown_sources = [source_id for source_id in source_ids if source_id not in sources]
+            if unknown_sources:
+                raise BenchmarkError(
+                    f"{company['name']}/{field_name} references unknown sources: "
+                    f"{unknown_sources}"
+                )
+            key = (company["name"], field_name)
+            if key in labels:
+                raise BenchmarkError(f"duplicate label: {company['name']}/{field_name}")
+            labels[key] = label["value"]
+    if not labels:
+        raise BenchmarkError("adjudicated labels contain no verified values")
     return labels
 
 

@@ -12,6 +12,8 @@ from research_agent.benchmark import (
     scope_labels_to_prediction_companies,
 )
 
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
 
 def write_json(path: Path, value: object) -> Path:
     path.write_text(json.dumps(value), encoding="utf-8")
@@ -89,4 +91,84 @@ def test_scope_uses_only_companies_present_in_predictions() -> None:
 
     assert scope_labels_to_prediction_companies(labels, predictions) == {
         ("Included", "legal_name"): "Included Inc."
+    }
+
+
+def test_load_adjudicated_labels_requires_verified_dated_sources(tmp_path: Path) -> None:
+    path = write_json(
+        tmp_path / "labels.json",
+        {
+            "schema_version": 2,
+            "sources": {
+                "example_10k": {
+                    "url": "https://www.sec.gov/example",
+                    "source_kind": "primary_regulatory_filing",
+                    "source_period_end": "2025-12-31",
+                    "accessed_at": "2026-08-18",
+                }
+            },
+            "companies": [
+                {
+                    "name": "Example",
+                    "fields": {
+                        "legal_name": {
+                            "value": "Example Inc.",
+                            "source_ids": ["example_10k"],
+                            "evidence_locator": "cover page",
+                            "reviewed_at": "2026-08-18",
+                            "review_status": "verified",
+                        }
+                    },
+                }
+            ],
+        },
+    )
+
+    assert load_labels(path) == {("Example", "legal_name"): "Example Inc."}
+
+
+def test_load_adjudicated_labels_rejects_unknown_sources(tmp_path: Path) -> None:
+    path = write_json(
+        tmp_path / "labels.json",
+        {
+            "schema_version": 2,
+            "sources": {
+                "known": {
+                    "url": "https://example.com",
+                    "source_kind": "official_company_site",
+                    "accessed_at": "2026-08-18",
+                }
+            },
+            "companies": [
+                {
+                    "name": "Example",
+                    "fields": {
+                        "legal_name": {
+                            "value": "Example Inc.",
+                            "source_ids": ["missing"],
+                            "evidence_locator": "cover page",
+                            "reviewed_at": "2026-08-18",
+                            "review_status": "verified",
+                        }
+                    },
+                }
+            ],
+        },
+    )
+
+    with pytest.raises(BenchmarkError, match="unknown sources"):
+        load_labels(path)
+
+
+def test_primary_source_label_set_has_complete_objective_cohort() -> None:
+    labels = load_labels(PROJECT_ROOT / "benchmarks" / "primary_source_labels.v1.json")
+
+    assert len({company for company, _field in labels}) == 25
+    assert len(labels) == 125
+    assert {field for _company, field in labels} == {
+        "legal_name",
+        "official_website",
+        "headquarters",
+        "ownership_status",
+        "stock_ticker",
     }

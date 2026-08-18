@@ -26,6 +26,7 @@ from research_agent.schemas import CompanyInput
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_FIXTURE = PROJECT_ROOT / "fixtures" / "companies.json"
+DEFAULT_BENCHMARK_LABELS = PROJECT_ROOT / "benchmarks" / "primary_source_labels.v1.json"
 
 
 def _database(args: argparse.Namespace) -> Database:
@@ -343,8 +344,8 @@ def build_parser() -> argparse.ArgumentParser:
     benchmark.add_argument("path", help="JSON export produced by the agent")
     benchmark.add_argument(
         "--labels",
-        default=str(DEFAULT_FIXTURE),
-        help="labeled JSON reference set (defaults to the 25-company authored fixture)",
+        default=str(DEFAULT_BENCHMARK_LABELS),
+        help="labeled JSON reference set (defaults to the primary-source 25-company set)",
     )
     benchmark.add_argument("--output", help="optional path for the machine-readable report")
     benchmark.add_argument(

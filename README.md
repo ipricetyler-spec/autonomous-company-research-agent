@@ -9,9 +9,9 @@ The repository includes a deterministic 25-company crash/restart demonstration t
 API key and a measured three-company live run against official websites using a local Ollama
 model. Live mode remains provider-neutral through an OpenAI-compatible Chat Completions endpoint.
 
-> Evidence boundary: live execution is verified and the recorded three-company run now has an
-> exact-match baseline against authored reference labels. The labels have not been independently
-> adjudicated, and model-derived facts still require human review before consequential use.
+> Evidence boundary: live execution is verified and the recorded three-company run has an
+> exact-match baseline against a dated primary-source reference set. The current label audit has
+> one reviewer, and model-derived facts still require human review before consequential use.
 
 ## Architecture
 
@@ -79,7 +79,7 @@ See [Architecture](docs/ARCHITECTURE.md), [failure recovery](docs/FAILURE_RECOVE
 
 ## Accuracy benchmark
 
-Score any JSON result export against the 25-company authored reference set:
+Score any JSON result export against the default 25-company, primary-source reference set:
 
 ```bash
 research-agent benchmark data/results.json --output evidence/accuracy.json

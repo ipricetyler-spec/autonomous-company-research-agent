@@ -59,8 +59,9 @@ through a sandboxed egress proxy or firewall.
 ## Known limitations
 
 The local Ollama run verifies live execution, citation allowlisting, retries, and field isolation;
-its current exact-match report uses authored reference labels that have not been independently
-adjudicated. Robots and site terms remain operator responsibilities for each imported domain. The
-deterministic replay contains small authored facts and URLs, not bulk scraped or proprietary
-content. Network-level egress controls remain required for a public multi-tenant deployment.
+its current exact-match report uses a dated, single-reviewer primary-source label set. A second
+reviewer is still required before using accuracy as a release-blocking gate. Robots and site terms
+remain operator responsibilities for each imported domain. The deterministic replay contains
+small authored facts and URLs, not bulk scraped or proprietary content. Network-level egress
+controls remain required for a public multi-tenant deployment.
 
