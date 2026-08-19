@@ -11,6 +11,7 @@ from research_agent.benchmark import (
     normalize_value,
     scope_labels_to_prediction_companies,
 )
+from research_agent.cli import DEFAULT_BENCHMARK_LABELS
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
@@ -172,3 +173,8 @@ def test_primary_source_label_set_has_complete_objective_cohort() -> None:
         "ownership_status",
         "stock_ticker",
     }
+
+
+def test_cli_default_benchmark_labels_exist() -> None:
+    assert DEFAULT_BENCHMARK_LABELS.is_file()
+    assert len(load_labels(DEFAULT_BENCHMARK_LABELS)) == 125

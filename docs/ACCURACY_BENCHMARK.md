@@ -44,10 +44,11 @@ answered 13, matched 9 exactly, achieved 86.7% coverage, 69.2% precision when an
 overall exact-match accuracy.
 
 This is a source-grounded engineering baseline, not a general production accuracy claim. The
-current set has one primary-source desk review and intentionally narrow exact-match fields. The
-next benchmark-governance improvements are:
+current set has one primary-source desk review and intentionally narrow exact-match fields. That is
+the completed scope for this portfolio application. Optional governance improvements for a future
+consequential production system are:
 
-1. add a second reviewer for every label before using the benchmark as a release gate;
+1. add independent review if the benchmark will control release decisions;
 2. define acceptable aliases and numeric tolerances before expanding scored fields;
 3. refresh or expire labels when their source snapshot becomes stale;
 4. report results by field and company cohort, not only one aggregate percentage.

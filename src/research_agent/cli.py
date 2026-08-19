@@ -25,8 +25,19 @@ from research_agent.research import FixtureResearchTool, OfficialWebsiteResearch
 from research_agent.schemas import CompanyInput
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_FIXTURE = PROJECT_ROOT / "fixtures" / "companies.json"
-DEFAULT_BENCHMARK_LABELS = PROJECT_ROOT / "benchmarks" / "primary_source_labels.v1.json"
+PACKAGE_DATA_ROOT = Path(__file__).resolve().parent / "data"
+
+
+def _data_path(filename: str, source_path: Path) -> Path:
+    bundled_path = PACKAGE_DATA_ROOT / filename
+    return bundled_path if bundled_path.exists() else source_path
+
+
+DEFAULT_FIXTURE = _data_path("companies.json", PROJECT_ROOT / "fixtures" / "companies.json")
+DEFAULT_BENCHMARK_LABELS = _data_path(
+    "primary_source_labels.v1.json",
+    PROJECT_ROOT / "benchmarks" / "primary_source_labels.v1.json",
+)
 
 
 def _database(args: argparse.Namespace) -> Database:
