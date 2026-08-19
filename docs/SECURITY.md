@@ -11,8 +11,8 @@
 
 The live research tool treats pages only as data. It can request a small fixed path allowlist on
 the imported official domain. Page content cannot add tools, change the company/group objective,
-read environment variables, or cause shell execution. Redirects leaving the imported domain are
-discarded.
+read environment variables, or cause shell execution. Redirects are handled manually and must
+pass the complete network policy before the next request is sent.
 
 The model system instruction explicitly tells the extractor to ignore instructions in page text.
 Only supplied source URLs may appear in validated results. This is a useful defense boundary, not
@@ -29,11 +29,23 @@ a claim that prompt injection is fully solved.
 
 ## Network boundary
 
-Live collection accepts only `http`/`https` URLs validated by Pydantic. It follows redirects but
-stores a page only when the final hostname is the imported host or its subdomain. A production
-deployment should add DNS/IP filtering to prevent private-network resolution and should use a
-sandboxed egress proxy. Live mode should not be exposed as a public SSRF-capable service in its
-current form.
+Live collection applies all of these checks before every initial or redirected request:
+
+- absolute `http`/`https` URL;
+- no URL-embedded credentials;
+- only ports 80 and 443;
+- hostname remains the imported host or its subdomain;
+- every resolved IPv4/IPv6 address is globally routable; mixed public/private DNS answers fail
+  closed.
+
+When HTTPX exposes the connected socket peer, that address is checked again before response data
+is processed. Automatic redirect following is disabled, so a redirect to localhost or another
+domain is rejected before the follow-up request.
+
+Application filtering does not replace network isolation. DNS can change between validation and
+connection on platforms where the peer address is unavailable, and HTTP proxies may resolve names
+outside the process. A public multi-tenant deployment should additionally enforce the same policy
+through a sandboxed egress proxy or firewall.
 
 ## Operational recommendations
 
@@ -47,8 +59,10 @@ current form.
 ## Known limitations
 
 The local Ollama run verifies live execution, citation allowlisting, retries, and field isolation;
-it does not benchmark factual accuracy or represent every OpenAI-compatible provider. Robots and
-site terms remain operator responsibilities for each imported domain. Private-network DNS/IP
-filtering is still required before exposing live imports to untrusted users. The deterministic
-replay contains small authored facts and URLs, not bulk scraped or proprietary content.
+its current exact-match report uses a dated, single-reviewer primary-source label set appropriate
+for this portfolio engineering baseline. Independent review is optional unless a future operator
+uses the benchmark for consequential release decisions. Robots and site terms remain operator
+responsibilities for each imported domain. The deterministic replay contains small authored facts
+and URLs, not bulk scraped or proprietary content. Network-level egress controls remain required
+for a future public multi-tenant deployment, which is outside this portfolio application's scope.
 

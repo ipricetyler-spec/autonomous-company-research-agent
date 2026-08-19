@@ -29,6 +29,10 @@ research-agent = "research_agent.cli:main"
 [tool.hatch.build.targets.wheel]
 packages = ["src/research_agent"]
 
+[tool.hatch.build.targets.wheel.force-include]
+"benchmarks/primary_source_labels.v1.json" = "research_agent/data/primary_source_labels.v1.json"
+"fixtures/companies.json" = "research_agent/data/companies.json"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"

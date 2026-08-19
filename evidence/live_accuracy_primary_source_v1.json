@@ -1,0 +1,224 @@
+{
+  "errors": [
+    {
+      "company": "Apple Inc.",
+      "expected": "Cupertino, California, United States",
+      "field_name": "headquarters",
+      "outcome": "incorrect",
+      "predicted_status": "found",
+      "predicted_value": "Cupertino, California"
+    },
+    {
+      "company": "Apple Inc.",
+      "expected": "public",
+      "field_name": "ownership_status",
+      "outcome": "abstained",
+      "predicted_status": "validation_failed",
+      "predicted_value": null
+    },
+    {
+      "company": "Apple Inc.",
+      "expected": "AAPL",
+      "field_name": "stock_ticker",
+      "outcome": "abstained",
+      "predicted_status": "validation_failed",
+      "predicted_value": null
+    },
+    {
+      "company": "Microsoft Corporation",
+      "expected": "Redmond, Washington, United States",
+      "field_name": "headquarters",
+      "outcome": "incorrect",
+      "predicted_status": "found",
+      "predicted_value": "Redmond, Washington"
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "expected": "Santa Clara, California, United States",
+      "field_name": "headquarters",
+      "outcome": "incorrect",
+      "predicted_status": "found",
+      "predicted_value": "Santa Clara, California"
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "expected": "https://www.nvidia.com/",
+      "field_name": "official_website",
+      "outcome": "incorrect",
+      "predicted_status": "found",
+      "predicted_value": "https://www.nvidia.com/en-us/"
+    }
+  ],
+  "per_field": {
+    "headquarters": {
+      "abstained": 0,
+      "correct": 0,
+      "incorrect": 3,
+      "labels": 3,
+      "missing": 0
+    },
+    "legal_name": {
+      "abstained": 0,
+      "correct": 3,
+      "incorrect": 0,
+      "labels": 3,
+      "missing": 0
+    },
+    "official_website": {
+      "abstained": 0,
+      "correct": 2,
+      "incorrect": 1,
+      "labels": 3,
+      "missing": 0
+    },
+    "ownership_status": {
+      "abstained": 1,
+      "correct": 2,
+      "incorrect": 0,
+      "labels": 3,
+      "missing": 0
+    },
+    "stock_ticker": {
+      "abstained": 1,
+      "correct": 2,
+      "incorrect": 0,
+      "labels": 3,
+      "missing": 0
+    }
+  },
+  "schema_version": 1,
+  "summary": {
+    "abstained": 2,
+    "accuracy_overall": 0.6,
+    "answered": 13,
+    "correct": 9,
+    "coverage": 0.8666666666666667,
+    "incorrect": 4,
+    "labels": 15,
+    "missing": 0,
+    "precision_when_answered": 0.6923076923076923,
+    "unsupported_prediction_count": 30
+  },
+  "unsupported_predictions": [
+    {
+      "company": "Apple Inc.",
+      "field_name": "careers_url"
+    },
+    {
+      "company": "Apple Inc.",
+      "field_name": "ceo"
+    },
+    {
+      "company": "Apple Inc.",
+      "field_name": "description"
+    },
+    {
+      "company": "Apple Inc.",
+      "field_name": "employee_count_estimate"
+    },
+    {
+      "company": "Apple Inc.",
+      "field_name": "founded_year"
+    },
+    {
+      "company": "Apple Inc.",
+      "field_name": "geographic_markets"
+    },
+    {
+      "company": "Apple Inc.",
+      "field_name": "industry"
+    },
+    {
+      "company": "Apple Inc.",
+      "field_name": "linkedin_url"
+    },
+    {
+      "company": "Apple Inc.",
+      "field_name": "products_services"
+    },
+    {
+      "company": "Apple Inc.",
+      "field_name": "recent_development"
+    },
+    {
+      "company": "Microsoft Corporation",
+      "field_name": "careers_url"
+    },
+    {
+      "company": "Microsoft Corporation",
+      "field_name": "ceo"
+    },
+    {
+      "company": "Microsoft Corporation",
+      "field_name": "description"
+    },
+    {
+      "company": "Microsoft Corporation",
+      "field_name": "employee_count_estimate"
+    },
+    {
+      "company": "Microsoft Corporation",
+      "field_name": "founded_year"
+    },
+    {
+      "company": "Microsoft Corporation",
+      "field_name": "geographic_markets"
+    },
+    {
+      "company": "Microsoft Corporation",
+      "field_name": "industry"
+    },
+    {
+      "company": "Microsoft Corporation",
+      "field_name": "linkedin_url"
+    },
+    {
+      "company": "Microsoft Corporation",
+      "field_name": "products_services"
+    },
+    {
+      "company": "Microsoft Corporation",
+      "field_name": "recent_development"
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "field_name": "careers_url"
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "field_name": "ceo"
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "field_name": "description"
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "field_name": "employee_count_estimate"
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "field_name": "founded_year"
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "field_name": "geographic_markets"
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "field_name": "industry"
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "field_name": "linkedin_url"
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "field_name": "products_services"
+    },
+    {
+      "company": "NVIDIA Corporation",
+      "field_name": "recent_development"
+    }
+  ]
+}

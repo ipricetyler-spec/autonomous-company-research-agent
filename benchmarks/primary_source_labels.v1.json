@@ -1,0 +1,1638 @@
+{
+  "schema_version": 2,
+  "benchmark_id": "primary-source-objective-v1",
+  "reviewed_at": "2026-08-18",
+  "review_method": "independent_from_fixture_primary_source_desk_review",
+  "reviewer": "Codex primary-source desk review",
+  "scoring_policy": {
+    "included_fields": [
+      "legal_name",
+      "official_website",
+      "headquarters",
+      "ownership_status",
+      "stock_ticker"
+    ],
+    "field_conventions": {
+      "headquarters": "city, state, United States; postal details omitted",
+      "official_website": "canonical corporate root URL",
+      "ownership_status": "public when common stock is publicly registered",
+      "stock_ticker": "primary common-stock symbol; Class A symbol when multiple classes trade"
+    },
+    "excluded_fields": {
+      "founded_year": "origin dates require a cohort-wide incorporation-versus-origin rule",
+      "industry": "requires a fixed taxonomy and mapping policy",
+      "description": "requires a semantic scoring rubric",
+      "products_services": "requires ontology and partial-credit rules",
+      "geographic_markets": "requires region normalization and partial-credit rules",
+      "careers_url": "redirect and regional canonicalization policy is not yet fixed",
+      "linkedin_url": "external platform ownership requires a separate verification rule",
+      "ceo": "volatile field requires an as-of snapshot policy",
+      "employee_count_estimate": "requires date and numeric tolerance rules",
+      "recent_development": "requires a dated event-selection rubric"
+    }
+  },
+  "sources": {
+    "microsoft_annual_filing": {
+      "title": "Microsoft Corporation annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2025-06-30",
+      "accessed_at": "2026-08-18"
+    },
+    "microsoft_official_site": {
+      "title": "Microsoft Corporation official company website",
+      "url": "https://www.microsoft.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "apple_annual_filing": {
+      "title": "Apple Inc. annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2025-09-27",
+      "accessed_at": "2026-08-18"
+    },
+    "apple_official_site": {
+      "title": "Apple Inc. official company website",
+      "url": "https://www.apple.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "nvidia_annual_filing": {
+      "title": "NVIDIA Corporation annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2026-01-25",
+      "accessed_at": "2026-08-18"
+    },
+    "nvidia_official_site": {
+      "title": "NVIDIA Corporation official company website",
+      "url": "https://www.nvidia.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "alphabet_annual_filing": {
+      "title": "Alphabet Inc. annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2025-12-31",
+      "accessed_at": "2026-08-18"
+    },
+    "alphabet_official_site": {
+      "title": "Alphabet Inc. official company website",
+      "url": "https://abc.xyz/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "amazon_annual_filing": {
+      "title": "Amazon.com, Inc. annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872426000004/amzn-20251231.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2025-12-31",
+      "accessed_at": "2026-08-18"
+    },
+    "amazon_official_site": {
+      "title": "Amazon.com, Inc. official company website",
+      "url": "https://www.aboutamazon.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "meta_annual_filing": {
+      "title": "Meta Platforms, Inc. annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2025-12-31",
+      "accessed_at": "2026-08-18"
+    },
+    "meta_official_site": {
+      "title": "Meta Platforms, Inc. official company website",
+      "url": "https://about.meta.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "tesla_annual_filing": {
+      "title": "Tesla, Inc. annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/tsla-20251231.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2025-12-31",
+      "accessed_at": "2026-08-18"
+    },
+    "tesla_official_site": {
+      "title": "Tesla, Inc. official company website",
+      "url": "https://www.tesla.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "ibm_annual_filing": {
+      "title": "International Business Machines Corporation annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/51143/000005114326000010/ibm-20251231.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2025-12-31",
+      "accessed_at": "2026-08-18"
+    },
+    "ibm_official_site": {
+      "title": "International Business Machines Corporation official company website",
+      "url": "https://www.ibm.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "intel_annual_filing": {
+      "title": "Intel Corporation annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2025-12-27",
+      "accessed_at": "2026-08-18"
+    },
+    "intel_official_site": {
+      "title": "Intel Corporation official company website",
+      "url": "https://www.intel.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "cisco_annual_filing": {
+      "title": "Cisco Systems, Inc. annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/858877/000085887725000111/csco-20250726.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2025-07-26",
+      "accessed_at": "2026-08-18"
+    },
+    "cisco_official_site": {
+      "title": "Cisco Systems, Inc. official company website",
+      "url": "https://www.cisco.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "oracle_annual_filing": {
+      "title": "Oracle Corporation annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526277521/orcl-20260531.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2026-05-31",
+      "accessed_at": "2026-08-18"
+    },
+    "oracle_official_site": {
+      "title": "Oracle Corporation official company website",
+      "url": "https://www.oracle.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "adobe_annual_filing": {
+      "title": "Adobe Inc. annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/796343/000079634326000003/adbe-20251128.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2025-11-28",
+      "accessed_at": "2026-08-18"
+    },
+    "adobe_official_site": {
+      "title": "Adobe Inc. official company website",
+      "url": "https://www.adobe.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "salesforce_annual_filing": {
+      "title": "Salesforce, Inc. annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/1108524/000110852426000060/crm-20260131.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2026-01-31",
+      "accessed_at": "2026-08-18"
+    },
+    "salesforce_official_site": {
+      "title": "Salesforce, Inc. official company website",
+      "url": "https://www.salesforce.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "amd_annual_filing": {
+      "title": "Advanced Micro Devices, Inc. annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2025-12-27",
+      "accessed_at": "2026-08-18"
+    },
+    "amd_official_site": {
+      "title": "Advanced Micro Devices, Inc. official company website",
+      "url": "https://www.amd.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "netflix_annual_filing": {
+      "title": "Netflix, Inc. annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/1065280/000106528026000034/nflx-20251231.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2025-12-31",
+      "accessed_at": "2026-08-18"
+    },
+    "netflix_official_site": {
+      "title": "Netflix, Inc. official company website",
+      "url": "https://about.netflix.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "coca-cola_annual_filing": {
+      "title": "The Coca-Cola Company annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/21344/000162828026010047/ko-20251231.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2025-12-31",
+      "accessed_at": "2026-08-18"
+    },
+    "coca-cola_official_site": {
+      "title": "The Coca-Cola Company official company website",
+      "url": "https://www.coca-colacompany.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "pepsico_annual_filing": {
+      "title": "PepsiCo, Inc. annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/77476/000007747626000007/pep-20251227.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2025-12-27",
+      "accessed_at": "2026-08-18"
+    },
+    "pepsico_official_site": {
+      "title": "PepsiCo, Inc. official company website",
+      "url": "https://www.pepsico.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "nike_annual_filing": {
+      "title": "NIKE, Inc. annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/320187/000032018726000088/nke-20260531.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2026-05-31",
+      "accessed_at": "2026-08-18"
+    },
+    "nike_official_site": {
+      "title": "NIKE, Inc. official company website",
+      "url": "https://about.nike.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "walmart_annual_filing": {
+      "title": "Walmart Inc. annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/wmt-20260131.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2026-01-31",
+      "accessed_at": "2026-08-18"
+    },
+    "walmart_official_site": {
+      "title": "Walmart Inc. official company website",
+      "url": "https://corporate.walmart.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "home-depot_annual_filing": {
+      "title": "The Home Depot, Inc. annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/354950/000162828026019436/hd-20260201.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2026-02-01",
+      "accessed_at": "2026-08-18"
+    },
+    "home-depot_official_site": {
+      "title": "The Home Depot, Inc. official company website",
+      "url": "https://corporate.homedepot.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "jpmorgan_annual_filing": {
+      "title": "JPMorgan Chase & Co. annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/19617/000162828026008131/jpm-20251231.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2025-12-31",
+      "accessed_at": "2026-08-18"
+    },
+    "jpmorgan_official_site": {
+      "title": "JPMorgan Chase & Co. official company website",
+      "url": "https://www.jpmorganchase.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "visa_annual_filing": {
+      "title": "Visa Inc. annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/1403161/000140316125000089/v-20250930.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2025-09-30",
+      "accessed_at": "2026-08-18"
+    },
+    "visa_official_site": {
+      "title": "Visa Inc. official company website",
+      "url": "https://corporate.visa.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "mastercard_annual_filing": {
+      "title": "Mastercard Incorporated annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/1141391/000114139126000013/ma-20251231.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2025-12-31",
+      "accessed_at": "2026-08-18"
+    },
+    "mastercard_official_site": {
+      "title": "Mastercard Incorporated official company website",
+      "url": "https://www.mastercard.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "boeing_annual_filing": {
+      "title": "The Boeing Company annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2025-12-31",
+      "accessed_at": "2026-08-18"
+    },
+    "boeing_official_site": {
+      "title": "The Boeing Company official company website",
+      "url": "https://www.boeing.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    },
+    "caterpillar_annual_filing": {
+      "title": "Caterpillar Inc. annual report on Form 10-K",
+      "url": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000008/cat-20251231.htm",
+      "source_kind": "primary_regulatory_filing",
+      "source_period_end": "2025-12-31",
+      "accessed_at": "2026-08-18"
+    },
+    "caterpillar_official_site": {
+      "title": "Caterpillar Inc. official company website",
+      "url": "https://www.caterpillar.com/",
+      "source_kind": "official_company_site",
+      "accessed_at": "2026-08-18"
+    }
+  },
+  "companies": [
+    {
+      "key": "microsoft",
+      "name": "Microsoft Corporation",
+      "fields": {
+        "legal_name": {
+          "value": "Microsoft Corporation",
+          "source_ids": [
+            "microsoft_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://www.microsoft.com/",
+          "source_ids": [
+            "microsoft_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "Redmond, Washington, United States",
+          "source_ids": [
+            "microsoft_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "microsoft_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "MSFT",
+          "source_ids": [
+            "microsoft_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "apple",
+      "name": "Apple Inc.",
+      "fields": {
+        "legal_name": {
+          "value": "Apple Inc.",
+          "source_ids": [
+            "apple_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://www.apple.com/",
+          "source_ids": [
+            "apple_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "Cupertino, California, United States",
+          "source_ids": [
+            "apple_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "apple_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "AAPL",
+          "source_ids": [
+            "apple_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "nvidia",
+      "name": "NVIDIA Corporation",
+      "fields": {
+        "legal_name": {
+          "value": "NVIDIA Corporation",
+          "source_ids": [
+            "nvidia_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://www.nvidia.com/",
+          "source_ids": [
+            "nvidia_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "Santa Clara, California, United States",
+          "source_ids": [
+            "nvidia_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "nvidia_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "NVDA",
+          "source_ids": [
+            "nvidia_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "alphabet",
+      "name": "Alphabet Inc.",
+      "fields": {
+        "legal_name": {
+          "value": "Alphabet Inc.",
+          "source_ids": [
+            "alphabet_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://abc.xyz/",
+          "source_ids": [
+            "alphabet_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "Mountain View, California, United States",
+          "source_ids": [
+            "alphabet_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "alphabet_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "GOOGL",
+          "source_ids": [
+            "alphabet_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "amazon",
+      "name": "Amazon.com, Inc.",
+      "fields": {
+        "legal_name": {
+          "value": "Amazon.com, Inc.",
+          "source_ids": [
+            "amazon_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://www.aboutamazon.com/",
+          "source_ids": [
+            "amazon_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "Seattle, Washington, United States",
+          "source_ids": [
+            "amazon_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "amazon_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "AMZN",
+          "source_ids": [
+            "amazon_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "meta",
+      "name": "Meta Platforms, Inc.",
+      "fields": {
+        "legal_name": {
+          "value": "Meta Platforms, Inc.",
+          "source_ids": [
+            "meta_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://about.meta.com/",
+          "source_ids": [
+            "meta_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "Menlo Park, California, United States",
+          "source_ids": [
+            "meta_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "meta_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "META",
+          "source_ids": [
+            "meta_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "tesla",
+      "name": "Tesla, Inc.",
+      "fields": {
+        "legal_name": {
+          "value": "Tesla, Inc.",
+          "source_ids": [
+            "tesla_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://www.tesla.com/",
+          "source_ids": [
+            "tesla_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "Austin, Texas, United States",
+          "source_ids": [
+            "tesla_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "tesla_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "TSLA",
+          "source_ids": [
+            "tesla_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "ibm",
+      "name": "International Business Machines Corporation",
+      "fields": {
+        "legal_name": {
+          "value": "International Business Machines Corporation",
+          "source_ids": [
+            "ibm_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://www.ibm.com/",
+          "source_ids": [
+            "ibm_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "Armonk, New York, United States",
+          "source_ids": [
+            "ibm_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "ibm_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "IBM",
+          "source_ids": [
+            "ibm_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "intel",
+      "name": "Intel Corporation",
+      "fields": {
+        "legal_name": {
+          "value": "Intel Corporation",
+          "source_ids": [
+            "intel_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://www.intel.com/",
+          "source_ids": [
+            "intel_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "Santa Clara, California, United States",
+          "source_ids": [
+            "intel_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "intel_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "INTC",
+          "source_ids": [
+            "intel_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "cisco",
+      "name": "Cisco Systems, Inc.",
+      "fields": {
+        "legal_name": {
+          "value": "Cisco Systems, Inc.",
+          "source_ids": [
+            "cisco_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://www.cisco.com/",
+          "source_ids": [
+            "cisco_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "San Jose, California, United States",
+          "source_ids": [
+            "cisco_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "cisco_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "CSCO",
+          "source_ids": [
+            "cisco_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "oracle",
+      "name": "Oracle Corporation",
+      "fields": {
+        "legal_name": {
+          "value": "Oracle Corporation",
+          "source_ids": [
+            "oracle_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://www.oracle.com/",
+          "source_ids": [
+            "oracle_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "Austin, Texas, United States",
+          "source_ids": [
+            "oracle_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "oracle_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "ORCL",
+          "source_ids": [
+            "oracle_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "adobe",
+      "name": "Adobe Inc.",
+      "fields": {
+        "legal_name": {
+          "value": "Adobe Inc.",
+          "source_ids": [
+            "adobe_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://www.adobe.com/",
+          "source_ids": [
+            "adobe_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "San Jose, California, United States",
+          "source_ids": [
+            "adobe_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "adobe_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "ADBE",
+          "source_ids": [
+            "adobe_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "salesforce",
+      "name": "Salesforce, Inc.",
+      "fields": {
+        "legal_name": {
+          "value": "Salesforce, Inc.",
+          "source_ids": [
+            "salesforce_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://www.salesforce.com/",
+          "source_ids": [
+            "salesforce_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "San Francisco, California, United States",
+          "source_ids": [
+            "salesforce_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "salesforce_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "CRM",
+          "source_ids": [
+            "salesforce_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "amd",
+      "name": "Advanced Micro Devices, Inc.",
+      "fields": {
+        "legal_name": {
+          "value": "Advanced Micro Devices, Inc.",
+          "source_ids": [
+            "amd_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://www.amd.com/",
+          "source_ids": [
+            "amd_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "Santa Clara, California, United States",
+          "source_ids": [
+            "amd_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "amd_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "AMD",
+          "source_ids": [
+            "amd_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "netflix",
+      "name": "Netflix, Inc.",
+      "fields": {
+        "legal_name": {
+          "value": "Netflix, Inc.",
+          "source_ids": [
+            "netflix_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://about.netflix.com/",
+          "source_ids": [
+            "netflix_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "Los Gatos, California, United States",
+          "source_ids": [
+            "netflix_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "netflix_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "NFLX",
+          "source_ids": [
+            "netflix_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "coca-cola",
+      "name": "The Coca-Cola Company",
+      "fields": {
+        "legal_name": {
+          "value": "The Coca-Cola Company",
+          "source_ids": [
+            "coca-cola_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://www.coca-colacompany.com/",
+          "source_ids": [
+            "coca-cola_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "Atlanta, Georgia, United States",
+          "source_ids": [
+            "coca-cola_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "coca-cola_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "KO",
+          "source_ids": [
+            "coca-cola_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "pepsico",
+      "name": "PepsiCo, Inc.",
+      "fields": {
+        "legal_name": {
+          "value": "PepsiCo, Inc.",
+          "source_ids": [
+            "pepsico_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://www.pepsico.com/",
+          "source_ids": [
+            "pepsico_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "Purchase, New York, United States",
+          "source_ids": [
+            "pepsico_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "pepsico_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "PEP",
+          "source_ids": [
+            "pepsico_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "nike",
+      "name": "NIKE, Inc.",
+      "fields": {
+        "legal_name": {
+          "value": "NIKE, Inc.",
+          "source_ids": [
+            "nike_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://about.nike.com/",
+          "source_ids": [
+            "nike_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "Beaverton, Oregon, United States",
+          "source_ids": [
+            "nike_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "nike_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "NKE",
+          "source_ids": [
+            "nike_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "walmart",
+      "name": "Walmart Inc.",
+      "fields": {
+        "legal_name": {
+          "value": "Walmart Inc.",
+          "source_ids": [
+            "walmart_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://corporate.walmart.com/",
+          "source_ids": [
+            "walmart_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "Bentonville, Arkansas, United States",
+          "source_ids": [
+            "walmart_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "walmart_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "WMT",
+          "source_ids": [
+            "walmart_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "home-depot",
+      "name": "The Home Depot, Inc.",
+      "fields": {
+        "legal_name": {
+          "value": "The Home Depot, Inc.",
+          "source_ids": [
+            "home-depot_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://corporate.homedepot.com/",
+          "source_ids": [
+            "home-depot_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "Atlanta, Georgia, United States",
+          "source_ids": [
+            "home-depot_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "home-depot_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "HD",
+          "source_ids": [
+            "home-depot_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "jpmorgan",
+      "name": "JPMorgan Chase & Co.",
+      "fields": {
+        "legal_name": {
+          "value": "JPMorgan Chase & Co.",
+          "source_ids": [
+            "jpmorgan_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://www.jpmorganchase.com/",
+          "source_ids": [
+            "jpmorgan_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "New York, New York, United States",
+          "source_ids": [
+            "jpmorgan_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "jpmorgan_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "JPM",
+          "source_ids": [
+            "jpmorgan_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "visa",
+      "name": "Visa Inc.",
+      "fields": {
+        "legal_name": {
+          "value": "Visa Inc.",
+          "source_ids": [
+            "visa_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://corporate.visa.com/",
+          "source_ids": [
+            "visa_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "San Francisco, California, United States",
+          "source_ids": [
+            "visa_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "visa_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "V",
+          "source_ids": [
+            "visa_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "mastercard",
+      "name": "Mastercard Incorporated",
+      "fields": {
+        "legal_name": {
+          "value": "Mastercard Incorporated",
+          "source_ids": [
+            "mastercard_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://www.mastercard.com/",
+          "source_ids": [
+            "mastercard_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "Purchase, New York, United States",
+          "source_ids": [
+            "mastercard_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "mastercard_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "MA",
+          "source_ids": [
+            "mastercard_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "boeing",
+      "name": "The Boeing Company",
+      "fields": {
+        "legal_name": {
+          "value": "The Boeing Company",
+          "source_ids": [
+            "boeing_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://www.boeing.com/",
+          "source_ids": [
+            "boeing_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "Arlington, Virginia, United States",
+          "source_ids": [
+            "boeing_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "boeing_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "BA",
+          "source_ids": [
+            "boeing_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    },
+    {
+      "key": "caterpillar",
+      "name": "Caterpillar Inc.",
+      "fields": {
+        "legal_name": {
+          "value": "Caterpillar Inc.",
+          "source_ids": [
+            "caterpillar_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: exact name of registrant",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "official_website": {
+          "value": "https://www.caterpillar.com/",
+          "source_ids": [
+            "caterpillar_official_site"
+          ],
+          "evidence_locator": "Official company site root reviewed directly",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "headquarters": {
+          "value": "Irving, Texas, United States",
+          "source_ids": [
+            "caterpillar_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: principal executive offices",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "ownership_status": {
+          "value": "public",
+          "source_ids": [
+            "caterpillar_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: publicly registered common stock",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        },
+        "stock_ticker": {
+          "value": "CAT",
+          "source_ids": [
+            "caterpillar_annual_filing"
+          ],
+          "evidence_locator": "Form 10-K cover page: trading symbol",
+          "reviewed_at": "2026-08-18",
+          "review_status": "verified"
+        }
+      }
+    }
+  ]
+}
